@@ -11,7 +11,7 @@
     },
     {
       "name": "Height",
-      "value": 398,
+      "value": 424,
       "type": 1
     },
     {
@@ -1000,6 +1000,44 @@
         {
           "name": "Top",
           "value": 366,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LinkGitHub",
+      "class_name": "TLinkLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 290,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LinkGitHub",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 392,
           "type": 1
         },
         {

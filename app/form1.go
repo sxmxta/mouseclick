@@ -8,6 +8,7 @@ package app
 import (
 	"fmt"
 
+	"github.com/energye/lcl/api"
 	"github.com/energye/lcl/lcl"
 	"github.com/energye/lcl/types"
 	"github.com/energye/lcl/types/colors"
@@ -25,6 +26,7 @@ const (
 	defaultDoubleInterval = 300 // 默认每组两次点击后等待 300 ms
 	lockCaptionOn         = "锁定点击位置：已锁定 (%d, %d)"
 	lockCaptionOff        = "锁定点击位置（勾选时固定为当前鼠标位置）"
+	githubURL             = "https://github.com/sxmxta/mouseclick"
 )
 
 type hotkeyOption struct {
@@ -163,6 +165,15 @@ func (m *TForm1) OnFormCreate(sender lcl.IObject) {
 		})
 	})
 
+	m.LinkGitHub.SetOnLinkClick(func(sender lcl.IObject, link string, linkType types.TSysLinkType) {
+		if linkType == types.SltURL {
+			api.SysOpen(link)
+		}
+	})
+	m.LinkGitHub.SetCaption("<a href=\"" + githubURL + "\">Github</a>")
+	m.LinkGitHub.SetHint(githubURL)
+	m.LinkGitHub.SetShowHint(true)
+
 	m.ButtonToggle.SetOnClick(func(lcl.IObject) { m.toggle() })
 
 	m.TimerUI.SetOnTimer(func(lcl.IObject) { m.refreshUI() })
@@ -231,6 +242,8 @@ func (m *TForm1) applyStyle() {
 	m.LabelDoubleInterval.Font().SetColor(colors.RGBToColor(70, 74, 80))
 
 	m.LabelHint.SetParentFont(false)
+	m.LinkGitHub.SetParentFont(false)
+	m.LinkGitHub.Font().SetColor(colors.RGBToColor(0, 102, 204))
 }
 
 func (m *TForm1) initHotkey() {
@@ -315,10 +328,11 @@ func (m *TForm1) applyModeUI() {
 	m.CheckBoxLock.SetTop(270 + delta)
 	m.ButtonToggle.SetTop(310 + delta)
 	m.LabelHint.SetTop(366 + delta)
+	m.LinkGitHub.SetTop(392 + delta)
 	if double {
-		m.SetHeight(398)
+		m.SetHeight(424)
 	} else {
-		m.SetHeight(342)
+		m.SetHeight(368)
 	}
 	m.updateTimingLabels()
 }
