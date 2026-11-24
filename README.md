@@ -34,7 +34,7 @@
 
 ## 快速开始（通过 ENERGY GUI Designer 运行）
 
-> 本仓库不提供可直接双击运行的预编译 exe。程序依赖 ENERGY GUI Designer 维护的 LCL / energy 运行时，请按下面的方式从 Designer 启动。
+> 本仓库不提供可直接双击运行的预编译程序。程序依赖 ENERGY GUI Designer 维护的 LCL / energy 运行时，请按下面的方式从 Designer 启动。
 
 1. 启动 **ENERGY GUI Designer**。
 2. 打开项目文件 `mouseclick.egp`。
