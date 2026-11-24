@@ -29,6 +29,7 @@ type appConfig struct {
 	Lock           bool   `json:"lock"`             // 是否锁定点击位置
 	LockX          int32  `json:"lockX"`            // 锁定的屏幕坐标
 	LockY          int32  `json:"lockY"`
+	CloseToTray    bool   `json:"closeToTray"` // 点击窗口 X 时隐藏到托盘；否则退出
 }
 
 func defaultConfig() appConfig {

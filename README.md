@@ -28,13 +28,16 @@
 - **模式独立参数**：单击速度与双击间隔 / 组间隔分别保存，切换模式不会覆盖另一组参数。
 - **全局热键启停**：默认 `F8`，可在下拉框选择 `Ctrl+F8`、`Ctrl+F9`、`Ctrl+F10`、`Alt+F8`、`Alt+F9`、`F8`–`F12`。
 - **锁定点击位置**：勾选时把当前鼠标位置固定为点击点；运行中光标会被固定在该位置，适合点固定按钮。
-- **配置记忆**：按键、模式、速度、双击参数、热键、锁定状态和坐标都会写入本地 JSON，下次启动自动恢复。
+- **配置记忆**：按键、模式、速度、双击参数、热键、锁定状态、坐标和「关闭隐藏窗口」状态都会写入本地 JSON，下次启动自动恢复。
+- **关闭到托盘**：勾选窗口右上角的「关闭隐藏窗口」后，点击窗口的 × 只隐藏窗口，点击引擎继续运行；未勾选时 × 直接退出。托盘菜单中的「退出程序」不受该复选框影响，始终直接退出。
 - **状态反馈**：显示「已暂停 / 即将开始 / 运行中」、累计点击次数和热键注册失败提示。
-- **安全退出**：暂停或关闭窗口时先释放鼠标按键，再退出点击循环，避免鼠标键卡住。
+- **安全退出**：真正退出前先释放鼠标按键，再结束点击循环，避免鼠标键卡住。
 
 ## 快速开始（通过 ENERGY GUI Designer 运行）
 
-> 本仓库只包含源码和 Designer 项目，不附带可直接双击运行的构建产物。程序依赖 ENERGY GUI Designer 维护的 LCL / energy 运行时，请按下面的方式从 Designer 启动。
+> 程序依赖 ENERGY GUI Designer 维护的 LCL / energy 运行时，请按下面的方式从 Designer 启动。
+
+一、获取 [ENERGY GUI Designer](https://github.com/energye/designer)
 
 1. 启动 **ENERGY GUI Designer**。
 2. 打开项目文件 `mouseclick.egp`。
@@ -42,6 +45,8 @@
 4. Designer 会加载 `github.com/energye/lcl`、`github.com/energye/energy/v3` 等依赖，并启动「鼠标连点器」窗口。
 5. 把鼠标移到要点击的位置；选择鼠标按键和单击 / 双击模式，按需要调整速度或双击参数。
 6. 按 `F8`（或下拉框中选择的其它热键）开始；再按一次暂停。
+
+二、使用预构建的安装程序
 
 说明：
 
@@ -127,7 +132,8 @@ go vet ./...
   "doubleInterval": 300,
   "lock": false,
   "lockX": 0,
-  "lockY": 0
+  "lockY": 0,
+  "closeToTray": false
 }
 ```
 
@@ -140,58 +146,6 @@ go vet ./...
 | `doubleGap` | 双击两次点击之间的间隔，30–300 ms |
 | `doubleInterval` | 双击每组结束后的组间隔，20–1000 ms |
 | `lock` / `lockX` / `lockY` | 是否锁定点击位置及锁定的屏幕坐标 |
+| `closeToTray` | 点击窗口 × 时是否只隐藏到托盘；`false` 为直接退出 |
 
 速度滑块使用 300 ms 防抖写盘；按键、模式、热键、锁定项即时排队写入；关闭窗口时强制落盘。配置损坏或数值越界会回退到默认值，不影响启动。删除配置文件即可恢复全部默认值。
-
-## 目录结构
-
-```text
-mouseclick/
-├── app/
-│   ├── app.go                 窗体注册（设计器生成）
-│   ├── form1.ui.go            由 layouts/form1.ui 生成的 UI 代码（不要手改）
-│   ├── form1.go               业务逻辑、事件、样式
-│   ├── engine.go              连点引擎、双击节奏和状态机
-│   ├── config.go              AppData 配置路径、校验、JSON 写入
-│   ├── input_windows.go       SendInput / 光标 / 1 ms 定时器
-│   ├── input_other.go         非 Windows 编译占位
-│   ├── hotkey_windows.go      RegisterHotKey 封装
-│   ├── hotkey_other.go        非 Windows 编译占位
-│   └── hotkey.go              修饰键常量
-├── layouts/
-│   └── form1.ui               设计器布局 JSON
-├── resources/
-│   ├── embed/                 应用图标（ico / png / icns）
-│   ├── metadata/              Windows 元数据和本地化
-│   └── logo/                  霓虹 Logo（SVG + PNG 预览）
-├── docs/images/                README 使用截图
-├── build/                     Designer 构建输出（不提交）
-├── mouseclick.egp             设计器项目配置
-├── go.mod / go.sum            依赖锁定
-├── main.go                    程序入口
-└── README.md
-```
-
-### 设计器约定
-
-- `layouts/form1.ui` 是界面布局的权威来源，Designer 打开项目时据此恢复画布。
-- `app/form1.ui.go` 是 Designer 生成的 UI 代码，**不要手改**；改布局请用 Designer，或同步修改 `.ui` 后重新生成。
-- `app/form1.go` 是业务代码，Designer 用 AST 保护，不覆盖用户逻辑。
-- 鼠标键三个 Radio 放在无边框、同底色的 `PanelKey` 中，仅用于隔离互斥组；单击 / 双击两个模式 Radio 直接挂在 Form 上。
-
-## 已知限制
-
-- 鼠标注入和全局热键目前只在 Windows 下实现；macOS / Linux 仅保证界面与配置逻辑可编译。
-- 目标程序若以管理员权限运行，本工具也需要以管理员身份运行，否则 UIPI 可能拦截 `SendInput`。
-- 少数内核级反作弊程序会忽略模拟点击，这是目标程序侧的限制。
-- 锁定位置运行时请用热键暂停；暂停按钮可能被固定在目标点的光标影响。
-- 全局热键被占用时换一个热键；程序不会强行抢占其他程序的注册。
-
-## Logo
-
-霓虹 Logo 源文件和预览：
-
-- `resources/logo/mouseclick-neon.svg`
-- `resources/logo/mouseclick-neon-preview.png`
-
-SVG 字标已转曲，不依赖系统字体，可无损放大或用于 README / 应用展示。

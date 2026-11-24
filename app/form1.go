@@ -60,6 +60,12 @@ type TForm1 struct {
 	hotkeySet  bool
 	shown      bool
 
+	trayIcon        lcl.ITrayIcon
+	trayMenu        lcl.IPopupMenu
+	trayToggleItem  lcl.IMenuItem
+	forceExit       bool // 托盘“退出程序”时绕过关闭隐藏分支
+	runtimeReleased bool // 退出清理只执行一次
+
 	suppressHotkeyChange bool
 	loadingConfig        bool
 	cfg                  configStore
@@ -151,6 +157,12 @@ func (m *TForm1) OnFormCreate(sender lcl.IObject) {
 		}
 	})
 
+	m.CheckBoxCloseToTray.SetOnClick(func(lcl.IObject) {
+		m.cfg.update(func(c *appConfig) {
+			c.CloseToTray = m.CheckBoxCloseToTray.Checked()
+		})
+	})
+
 	m.ButtonToggle.SetOnClick(func(lcl.IObject) { m.toggle() })
 
 	m.TimerUI.SetOnTimer(func(lcl.IObject) { m.refreshUI() })
@@ -172,19 +184,22 @@ func (m *TForm1) OnShow(sender lcl.IObject) {
 		return
 	}
 	m.shown = true
+	m.initTray()
 	if !m.applyHotkey(m.hotkeyVK, m.hotkeyMod, m.hotkeyName) {
 		m.showHint("热键 "+m.hotkeyName+" 注册失败，可能被其他程序占用，请换一个", true)
 	}
 }
 
-// OnCloseQuery 关闭前询问事件
+// OnCloseQuery 窗口关闭事件：勾选“关闭隐藏窗口”时只隐藏，否则真正退出。
+// 托盘菜单的退出会先设置 forceExit，因此不会被这里的隐藏逻辑拦住。
 func (m *TForm1) OnCloseQuery(sender lcl.IObject, canClose *bool) {
-	m.cfg.flush()
-	m.engine.stop()
-	if m.hotkeySet {
-		unregisterHotKey(uintptr(m.Handle()), hotkeyID)
-		m.hotkeySet = false
+	if !m.forceExit && m.CheckBoxCloseToTray.Checked() {
+		*canClose = false
+		m.cfg.flush()
+		m.hideMainWindow()
+		return
 	}
+	m.releaseRuntime()
 	*canClose = true
 }
 
@@ -272,6 +287,7 @@ func (m *TForm1) applyConfig(cfg appConfig) {
 		m.engine.setFixed(false, 0, 0)
 		m.CheckBoxLock.SetCaption(lockCaptionOff)
 	}
+	m.CheckBoxCloseToTray.SetChecked(cfg.CloseToTray)
 	m.applyModeUI()
 	m.cfg.set(cfg)
 }
@@ -424,8 +440,6 @@ func (m *TForm1) showHint(text string, isError bool) {
 	m.LabelHint.SetCaption(text)
 	if isError {
 		m.LabelHint.Font().SetColor(colors.RGBToColor(200, 60, 60))
-	} else {
-		m.LabelHint.Font().SetColor(colors.RGBToColor(140, 144, 150))
 	}
 }
 
