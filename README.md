@@ -16,7 +16,7 @@
 |:---:|:---:|
 | <img src="docs/images/single-mode.png" width="340" alt="单击模式界面"> | <img src="docs/images/double-mode.png" width="340" alt="双击模式界面"> |
 
-截图使用全新配置，未锁定点击位置。开始后会有 0.8 秒预热，状态从「即将开始」变为「运行中」，右上角显示累计点击次数。
+截图在运行中抓取，使用全新配置、未锁定点击位置；右上角是实际累计点击次数（单图 34 次，双图 8 次）。开始后会有 0.8 秒预热，状态从「即将开始」变为「运行中」。
 
 ## 功能
 
@@ -32,17 +32,22 @@
 - **状态反馈**：显示「已暂停 / 即将开始 / 运行中」、累计点击次数和热键注册失败提示。
 - **安全退出**：暂停或关闭窗口时先释放鼠标按键，再退出点击循环，避免鼠标键卡住。
 
-## 快速开始
+## 快速开始（通过 ENERGY GUI Designer 运行）
 
-### 直接运行（推荐）
+> 本仓库不提供可直接双击运行的预编译 exe。程序依赖 ENERGY GUI Designer 维护的 LCL / energy 运行时，请按下面的方式从 Designer 启动。
 
-1. 进入项目的 `build` 目录。
-2. 双击 `mouseclick.exe`。
-3. 把鼠标移到要点击的位置。
-4. 选择鼠标按键和点击模式，按需要调整速度或双击参数。
-5. 按 `F8`（或你选择的热键）开始；再按一次暂停。
+1. 启动 **ENERGY GUI Designer**。
+2. 打开项目文件 `mouseclick.egp`。
+3. 点击工具栏上绿色三角形的 **「运行预览(F9)」**。
+4. Designer 会加载 `github.com/energye/lcl`、`github.com/energye/energy/v3` 等依赖，并启动「鼠标连点器」窗口。
+5. 把鼠标移到要点击的位置；选择鼠标按键和单击 / 双击模式，按需要调整速度或双击参数。
+6. 按 `F8`（或下拉框中选择的其它热键）开始；再按一次暂停。
 
-不需要打开控制台，程序是 Windows GUI 应用。当前仓库中的预构建程序为 x64 版本，适用于 Windows 10/11。
+说明：
+
+- `F9` 是 Designer 的「运行预览」快捷键；本工具自己的启停热键默认是 `F8`，两者不冲突。
+- Designer 运行预览时会自动编译并直接启动窗口，不需要额外执行构建命令，也不要把 `build/` 下的产物当作独立运行程序。
+- 安装包和发布流程由你自己的 Designer 发布方式处理，本文不涉及打包步骤。
 
 ### 使用「锁定点击位置」
 
@@ -83,52 +88,22 @@ main.go
 说明：
 
 - 本机开发和运行由 ENERGY GUI Designer 维护 `%USERPROFILE%\.energy\runtime` 下的 `libenergy-amd64.dll`；本地 `build` 目录不需要手动复制 DLL。
-- 如果要把程序分发到其他机器，请使用 Designer 的发布方式，或按 Designer 的运行时要求一起携带对应库，不要只拷贝单个 exe。
+- 如果要把程序分发到其他机器，请按你自己的 Designer 发布流程处理，确保运行时库与程序一起分发，不要只拷贝单个文件。
 - macOS / Linux 目前只保留界面和配置逻辑的编译入口；鼠标注入和全局热键只在 Windows 下实现，不能实际点击。
 
-## 从源码构建
-
-### 命令行构建（Windows PowerShell / CMD）
-
-```bat
-git clone https://github.com/sxmxta/mouseclick.git
-cd mouseclick
-go mod download
-```
-
-如果 `build` 目录不存在，先创建：
-
-```bat
-mkdir build
-```
-
-然后构建：
-
-```bat
-go build -o build\mouseclick.exe .
-```
-
-构建完成后运行：
-
-```bat
-build\mouseclick.exe
-```
-
-### 用 ENERGY GUI Designer 构建
+## 在 Designer 中修改与运行
 
 1. 用 ENERGY GUI Designer 打开 `mouseclick.egp`。
-2. 在 Designer 里点击「构建」。
-3. 输出目录为 `build/`，文件名由 `.egp` 的 `build_option` 配置为 `mouseclick`。
-4. Designer 会处理本机 `libenergy` 运行时，不需要手动往 `build` 放 DLL。
+2. 界面布局在 `layouts/form1.ui` 中维护；打开 Designer 后可直接在画布上调整控件。
+3. 修改后先保存，再点击 **「运行预览(F9)」** 编译并启动，验证界面和交互。
+4. 业务逻辑在 `app/form1.go`，Designer 不会覆盖这部分；`app/form1.ui.go` 是生成代码，不要手改。
+5. Designer 的运行输出目录是 `build/`，本仓库不提交这些构建产物。
 
-### 开发检查
+如果只想做静态检查，可在项目根目录执行：
 
 ```bat
 go vet ./...
-go build -o build\mouseclick.exe .
 ```
-
-项目同时通过了 Windows 386 的编译检查；当前预构建的 `build/mouseclick.exe` 是 amd64 版本。
 
 ## 配置记忆
 
@@ -138,7 +113,7 @@ go build -o build\mouseclick.exe .
 %LOCALAPPDATA%\mouseclick\config.json
 ```
 
-目录名优先取 `app.Info.Name`；手动 `go build` 且 `Info.Name` 为空时回退为 exe 文件名。macOS / Linux 使用 `os.UserConfigDir()` 的系统配置目录。
+目录名优先取 `app.Info.Name`；若 `Info.Name` 为空，回退为可执行文件名。macOS / Linux 使用 `os.UserConfigDir()` 的系统配置目录。
 
 默认配置：
 
@@ -190,7 +165,7 @@ mouseclick/
 │   ├── metadata/              Windows 元数据和本地化
 │   └── logo/                  霓虹 Logo（SVG + PNG 预览）
 ├── docs/images/                README 使用截图
-├── build/mouseclick.exe       预构建 Windows 程序
+├── build/                     Designer 构建输出（不提交）
 ├── mouseclick.egp             设计器项目配置
 ├── go.mod / go.sum            依赖锁定
 ├── main.go                    程序入口

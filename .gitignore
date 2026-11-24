@@ -5,6 +5,9 @@
 docs/_shotcfg_*/
 build/_*/
 
+# Designer build output
+build/
+
 # Logs and OS metadata
 *.log
 Thumbs.db
