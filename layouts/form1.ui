@@ -1,0 +1,1015 @@
+{
+  "name": "Form1",
+  "class_name": "TEngForm",
+  "mod": "",
+  "type": 0,
+  "properties": [
+    {
+      "name": "Caption",
+      "value": "鼠标连点器",
+      "type": 0
+    },
+    {
+      "name": "Height",
+      "value": 398,
+      "type": 1
+    },
+    {
+      "name": "Left",
+      "value": 0,
+      "type": 1
+    },
+    {
+      "name": "Name",
+      "value": "Form1",
+      "type": 0
+    },
+    {
+      "name": "Top",
+      "value": 0,
+      "type": 1
+    },
+    {
+      "name": "Width",
+      "value": 360,
+      "type": 1
+    }
+  ],
+  "child": [
+    {
+      "name": "LabelStatus",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "● 已暂停",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 28,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelStatus",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 12,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 188,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelCount",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Alignment",
+          "value": "TaRightJustify",
+          "type": 9
+        },
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "已点击 0 次",
+          "type": 0
+        },
+        {
+          "name": "Color",
+          "value": 15417665,
+          "type": 11
+        },
+        {
+          "name": "Font.Color",
+          "value": 14172201,
+          "type": 11
+        },
+        {
+          "name": "Font.Style",
+          "value": "[FsBold]",
+          "type": 8
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 194,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelCount",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 17,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 150,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelKey",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "鼠标按键",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelKey",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 55,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 74,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelMode",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "点击模式",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelMode",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 85,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 74,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "PanelKey",
+      "class_name": "TPanel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "BevelOuter",
+          "value": "BvNone",
+          "type": 9
+        },
+        {
+          "name": "Caption",
+          "value": "",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 26,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 88,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "PanelKey",
+          "type": 0
+        },
+        {
+          "name": "ParentBackground",
+          "value": true,
+          "type": 6
+        },
+        {
+          "name": "Top",
+          "value": 50,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 256,
+          "type": 1
+        },
+        {
+          "name": "ParentColor",
+          "value": true,
+          "type": 6
+        }
+      ],
+      "child": [
+        {
+          "name": "RadioLeft",
+          "class_name": "TRadioButton",
+          "mod": "lcl",
+          "type": 2,
+          "properties": [
+            {
+              "name": "Caption",
+              "value": "左键",
+              "type": 0
+            },
+            {
+              "name": "Checked",
+              "value": true,
+              "type": 6
+            },
+            {
+              "name": "Height",
+              "value": 22,
+              "type": 1
+            },
+            {
+              "name": "Left",
+              "value": 0,
+              "type": 1
+            },
+            {
+              "name": "Name",
+              "value": "RadioLeft",
+              "type": 0
+            },
+            {
+              "name": "Top",
+              "value": 2,
+              "type": 1
+            },
+            {
+              "name": "Width",
+              "value": 54,
+              "type": 1
+            }
+          ]
+        },
+        {
+          "name": "RadioMiddle",
+          "class_name": "TRadioButton",
+          "mod": "lcl",
+          "type": 2,
+          "properties": [
+            {
+              "name": "Caption",
+              "value": "中键",
+              "type": 0
+            },
+            {
+              "name": "Height",
+              "value": 22,
+              "type": 1
+            },
+            {
+              "name": "Left",
+              "value": 62,
+              "type": 1
+            },
+            {
+              "name": "Name",
+              "value": "RadioMiddle",
+              "type": 0
+            },
+            {
+              "name": "Top",
+              "value": 2,
+              "type": 1
+            },
+            {
+              "name": "Width",
+              "value": 54,
+              "type": 1
+            }
+          ]
+        },
+        {
+          "name": "RadioRight",
+          "class_name": "TRadioButton",
+          "mod": "lcl",
+          "type": 2,
+          "properties": [
+            {
+              "name": "Caption",
+              "value": "右键",
+              "type": 0
+            },
+            {
+              "name": "Height",
+              "value": 22,
+              "type": 1
+            },
+            {
+              "name": "Left",
+              "value": 127,
+              "type": 1
+            },
+            {
+              "name": "Name",
+              "value": "RadioRight",
+              "type": 0
+            },
+            {
+              "name": "Top",
+              "value": 1,
+              "type": 1
+            },
+            {
+              "name": "Width",
+              "value": 54,
+              "type": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RadioSingle",
+      "class_name": "TRadioButton",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Caption",
+          "value": "单击模式",
+          "type": 0
+        },
+        {
+          "name": "Checked",
+          "value": true,
+          "type": 6
+        },
+        {
+          "name": "Height",
+          "value": 22,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 88,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "RadioSingle",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 83,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 80,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "RadioDouble",
+      "class_name": "TRadioButton",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Caption",
+          "value": "双击模式",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 22,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 208,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "RadioDouble",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 83,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 84,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelSpeed",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "点击速度：20 次/秒（间隔 50 ms）",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelSpeed",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 115,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "TrackBarSpeed",
+      "class_name": "TTrackBar",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Height",
+          "value": 32,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Max",
+          "value": 50,
+          "type": 1
+        },
+        {
+          "name": "Min",
+          "value": 1,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "TrackBarSpeed",
+          "type": 0
+        },
+        {
+          "name": "Position",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Top",
+          "value": 135,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelDoubleGap",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "双击间隔：100 ms",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelDoubleGap",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 115,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "TrackBarDoubleGap",
+      "class_name": "TTrackBar",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Height",
+          "value": 32,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Max",
+          "value": 300,
+          "type": 1
+        },
+        {
+          "name": "Min",
+          "value": 30,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "TrackBarDoubleGap",
+          "type": 0
+        },
+        {
+          "name": "Position",
+          "value": 100,
+          "type": 1
+        },
+        {
+          "name": "Top",
+          "value": 135,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelDoubleInterval",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "组间隔：300 ms（每组两次后等待）",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelDoubleInterval",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 175,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "TrackBarDoubleInterval",
+      "class_name": "TTrackBar",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Height",
+          "value": 32,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Max",
+          "value": 1000,
+          "type": 1
+        },
+        {
+          "name": "Min",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "TrackBarDoubleInterval",
+          "type": 0
+        },
+        {
+          "name": "Position",
+          "value": 300,
+          "type": 1
+        },
+        {
+          "name": "Top",
+          "value": 195,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelHotkey",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "启停热键",
+          "type": 0
+        },
+        {
+          "name": "Font.Color",
+          "value": 255,
+          "type": 11
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelHotkey",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 239,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 74,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "ComboBoxHotkey",
+      "class_name": "TComboBox",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Height",
+          "value": 24,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 92,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "ComboBoxHotkey",
+          "type": 0
+        },
+        {
+          "name": "Style",
+          "value": "CsDropDownList",
+          "type": 9
+        },
+        {
+          "name": "Top",
+          "value": 235,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 90,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "CheckBoxLock",
+      "class_name": "TCheckBox",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Caption",
+          "value": "锁定点击位置（勾选时固定为当前鼠标位置）",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 22,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "CheckBoxLock",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 270,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "ButtonToggle",
+      "class_name": "TButton",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "Caption",
+          "value": "开始 (F8)",
+          "type": 0
+        },
+        {
+          "name": "Height",
+          "value": 44,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "ButtonToggle",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 310,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "LabelHint",
+      "class_name": "TLabel",
+      "mod": "lcl",
+      "type": 2,
+      "properties": [
+        {
+          "name": "AutoSize",
+          "value": false,
+          "type": 6
+        },
+        {
+          "name": "Caption",
+          "value": "把鼠标放到指定位置上，按 F8 开始 / 再按一次暂停",
+          "type": 0
+        },
+        {
+          "name": "Color",
+          "value": 2147483679,
+          "type": 11
+        },
+        {
+          "name": "Font.Color",
+          "value": 255,
+          "type": 11
+        },
+        {
+          "name": "Font.Size",
+          "value": 10,
+          "type": 1
+        },
+        {
+          "name": "Font.Style",
+          "value": "[FsBold]",
+          "type": 8
+        },
+        {
+          "name": "Height",
+          "value": 20,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 16,
+          "type": 1
+        },
+        {
+          "name": "Name",
+          "value": "LabelHint",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 366,
+          "type": 1
+        },
+        {
+          "name": "Width",
+          "value": 328,
+          "type": 1
+        }
+      ]
+    },
+    {
+      "name": "TimerUI",
+      "class_name": "TTimer",
+      "mod": "lcl",
+      "type": 1,
+      "properties": [
+        {
+          "name": "Interval",
+          "value": 200,
+          "type": 1
+        },
+        {
+          "name": "Left",
+          "value": 0,
+          "type": 1,
+          "no_code": true
+        },
+        {
+          "name": "Name",
+          "value": "TimerUI",
+          "type": 0
+        },
+        {
+          "name": "Top",
+          "value": 0,
+          "type": 1,
+          "no_code": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# Local screenshot/configuration scratch
+docs/_shotcfg_*/
+build/_*/
+
+# Logs and OS metadata
+*.log
+Thumbs.db
+.DS_Store
