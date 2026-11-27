@@ -9,6 +9,10 @@ func mouseUp(b clickButton) {}
 
 func setCursorPos(x, y int32) {}
 
+func mouseWheel(delta int32) {}
+
+func escapePressed() bool { return false }
+
 func enableHighResTimer() {}
 
 func disableHighResTimer() {}

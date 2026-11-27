@@ -83,9 +83,20 @@ func (m *TForm1) releaseRuntime() {
 	m.runtimeReleased = true
 	m.cfg.flush()
 	m.engine.stop()
+	m.run.stop()
+	if m.recording {
+		m.recording = false
+		uninstallRecorder()
+		stopMouseHook()
+		m.recTimer.SetEnabled(false)
+	}
 	if m.hotkeySet {
 		unregisterHotKey(uintptr(m.Handle()), hotkeyID)
 		m.hotkeySet = false
+	}
+	if m.recordHotkeySet {
+		unregisterHotKey(uintptr(m.Handle()), recordHotkeyID)
+		m.recordHotkeySet = false
 	}
 	if m.trayIcon != nil {
 		m.trayIcon.SetVisible(false)

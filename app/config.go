@@ -15,6 +15,7 @@ const configFileName = "config.json"
 const (
 	modeSingle = "single" // 单击模式：按固定间隔连续点击
 	modeDouble = "double" // 双击模式：每组连续点击两次，再等待组间隔
+	modeScript = "script" // 脚本模式：按动作序列执行
 )
 
 // appConfig 小工具的可持久化配置
@@ -22,6 +23,7 @@ type appConfig struct {
 	Rate           int    `json:"rate"`             // 单击模式点击速度，次/秒
 	Button         string `json:"button"`           // left / middle / right
 	Hotkey         string `json:"hotkey"`           // 热键名称，如 F8、Ctrl+F8
+	RecordHotkey   string `json:"recordHotkey"`     // 录制热键，默认 F10
 	Mode           string `json:"mode"`             // single / double
 	Double         bool   `json:"double,omitempty"` // 旧版双击开关，仅用于迁移
 	DoubleGap      int    `json:"doubleGap"`        // 双击两次点击之间的间隔，毫秒
@@ -30,6 +32,8 @@ type appConfig struct {
 	LockX          int32  `json:"lockX"`            // 锁定的屏幕坐标
 	LockY          int32  `json:"lockY"`
 	CloseToTray    bool   `json:"closeToTray"` // 点击窗口 X 时隐藏到托盘；否则退出
+
+	Sequence seqConfig `json:"sequence"` // 脚本（序列）模式
 }
 
 func defaultConfig() appConfig {
@@ -37,9 +41,11 @@ func defaultConfig() appConfig {
 		Rate:           defaultRate,
 		Button:         buttonName(btnLeft),
 		Hotkey:         hotkeyOptions[defaultHotkeyIndex].name,
+		RecordHotkey:   hotkeyOptions[defaultRecordHotkeyIndex].name,
 		Mode:           modeSingle,
 		DoubleGap:      defaultDoubleGap,
 		DoubleInterval: defaultDoubleInterval,
+		Sequence:       defaultSeqConfig(),
 	}
 }
 
@@ -74,6 +80,31 @@ func hotkeyIndex(name string) int {
 	return defaultHotkeyIndex
 }
 
+// recordHotkeyIndex 录制热键的下标，空值或缺省时回退到默认 F10
+func recordHotkeyIndex(name string) int {
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return defaultRecordHotkeyIndex
+	}
+	for i, opt := range hotkeyOptions {
+		if strings.EqualFold(name, opt.name) {
+			return i
+		}
+	}
+	return defaultRecordHotkeyIndex
+}
+
+// pickRecordHotkey 从默认项开始找第一个不与启停热键重名的选项
+func pickRecordHotkey(exclude string) string {
+	for i := 0; i < len(hotkeyOptions); i++ {
+		idx := (defaultRecordHotkeyIndex + i) % len(hotkeyOptions)
+		if hotkeyOptions[idx].name != exclude {
+			return hotkeyOptions[idx].name
+		}
+	}
+	return hotkeyOptions[defaultRecordHotkeyIndex].name
+}
+
 // normalized 校验并回退非法值，避免手改配置后程序异常
 func (c appConfig) normalized() appConfig {
 	if c.Rate < minRate || c.Rate > maxRate {
@@ -82,7 +113,12 @@ func (c appConfig) normalized() appConfig {
 	c.Button = buttonName(parseButton(c.Button))
 	idx := hotkeyIndex(c.Hotkey)
 	c.Hotkey = hotkeyOptions[idx].name
-	if c.Mode != modeSingle && c.Mode != modeDouble {
+	recIdx := recordHotkeyIndex(c.RecordHotkey)
+	c.RecordHotkey = hotkeyOptions[recIdx].name
+	if c.RecordHotkey == c.Hotkey {
+		c.RecordHotkey = pickRecordHotkey(c.Hotkey)
+	}
+	if c.Mode != modeSingle && c.Mode != modeDouble && c.Mode != modeScript {
 		if c.Double {
 			c.Mode = modeDouble
 		} else {
@@ -105,6 +141,7 @@ func (c appConfig) normalized() appConfig {
 	if !c.Lock {
 		c.LockX, c.LockY = 0, 0
 	}
+	c.Sequence = c.Sequence.normalized()
 	return c
 }
 

@@ -18,7 +18,9 @@ const (
 	mouseEventRightUp    = 0x0010
 	mouseEventMiddleDown = 0x0020
 	mouseEventMiddleUp   = 0x0040
+	mouseEventWheel      = 0x0800
 	inputMouse           = 0
+	vkEscape             = 0x1B
 )
 
 // mouseInput 对应 Win32 MOUSEINPUT，amd64 下大小为 32 字节
@@ -42,6 +44,7 @@ type input struct {
 var (
 	user32DLL     = syscall.NewLazyDLL("user32.dll")
 	procSendInput = user32DLL.NewProc("SendInput")
+	procKeyState  = user32DLL.NewProc("GetAsyncKeyState")
 
 	winmmDLL            = syscall.NewLazyDLL("winmm.dll")
 	procTimeBeginPeriod = winmmDLL.NewProc("timeBeginPeriod")
@@ -52,9 +55,14 @@ var (
 )
 
 func sendMouse(flags uint32) {
+	sendMouseData(flags, 0)
+}
+
+func sendMouseData(flags uint32, data uint32) {
 	var in input
 	in.typ = inputMouse
 	in.mi.flags = flags
+	in.mi.mouseData = data
 	// 失败（例如被 UIPI 拦截）时静默忽略：连点器不适合弹窗打断
 	_, _, _ = procSendInput.Call(1, uintptr(unsafe.Pointer(&in)), unsafe.Sizeof(in))
 }
@@ -83,6 +91,20 @@ func mouseUp(b clickButton) {
 
 func setCursorPos(x, y int32) {
 	win.SetCursorPos(x, y)
+}
+
+// mouseWheel 发送滚轮事件，delta 为 120 的整数倍（正数向上）
+func mouseWheel(delta int32) {
+	if delta == 0 {
+		return
+	}
+	sendMouseData(mouseEventWheel, uint32(delta))
+}
+
+// escapePressed 查询 Esc 是否按下。轮询而非注册热键，不抢占 Esc
+func escapePressed() bool {
+	r, _, _ := procKeyState.Call(uintptr(vkEscape))
+	return uint16(r)&0x8000 != 0
 }
 
 // enableHighResTimer 把系统定时器精度提到 1ms，让连点间隔更准
